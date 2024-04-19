@@ -1,12 +1,22 @@
 // local storage
 const getLocalStorage = () => JSON.parse(localStorage.getItem("list")) ?? [];
 
+const setLocalStorage = (value) =>
+  localStorage.setItem("list", JSON.stringify(value));
+
 const updateLocalStorage = (id, value) => {
   const items = getLocalStorage().reverse();
   items[id].value = value;
 
-  localStorage.setItem("list", JSON.stringify(items.reverse()));
+  setLocalStorage(items.reverse());
 };
+
+const deleteLocalStorage = (index) => {
+  const items = getLocalStorage().reverse();
+  items.splice(index, 1);
+  setLocalStorage(items.reverse());
+};
+
 // Load items from local storage
 const loadItems = () => {
   const items = getLocalStorage().reverse();
@@ -65,22 +75,22 @@ const setItemsButtons = () => {
 
   editButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      displayEditModal(e.target.closest("li"));
+      editModal(e.target.closest("li"));
     });
   });
   deleteButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      displayDeleteModal(e.target.closest("li"));
+      deleteModal(e.target.closest("li"));
     });
   });
 };
 
 // Display the edit modal for a specific item
-const displayEditModal = (item) => {
+const editModal = (item) => {
   const modal = document.querySelector(".grocery__modal");
   const content = editContent();
 
-  displayRemoveModal(modal, "block");
+  displayModal(modal, "block");
   modal.insertAdjacentHTML("beforeend", content);
   modal.querySelector("input").value = item.firstChild.innerHTML;
   modal.querySelector("input").focus();
@@ -130,7 +140,7 @@ const setItemEdition = (id, modal) => {
 // Display edited item
 const displayEditedItem = (id, value, modal) => {
   updateLocalStorage(id, value);
-  displayRemoveModal(modal, "none");
+  displayModal(modal, "none");
   setBackToDefault();
   loadItems();
   displayAlert("item edited", "success", ".alert");
@@ -141,8 +151,53 @@ const setCloseModalButton = (modal) => {
   const closeButton = document.querySelector(".modal__close");
 
   closeButton.addEventListener("click", () => {
-    displayRemoveModal(modal, "none");
+    displayModal(modal, "none");
   });
+};
+
+// Display delete modal for an item
+const deleteModal = (item) => {
+  const modal = document.querySelector(".grocery__modal");
+  const content = deleteContent(item);
+
+  modal.insertAdjacentHTML("beforeend", content);
+  displayModal(modal, "block");
+  setDeletionButtons(item);
+};
+
+// Generate HTML content for the delete modal
+const deleteContent = (item) => {
+  return `<div class="modal modal__delete">
+            <p>Are you sure you want to delete :</p>
+            <div class="modal__body">
+              <p class="item__title">${item.firstChild.innerHTML} ?</p>
+              <div class="modal__butons">
+                <button type="button" class="modal__button delete__button">delete</button>
+                <button type="button" class="modal__button cancel__button">cancel</button>
+              </div>
+            </div>
+          </div>`;
+};
+
+// Set up event listeners for buttons in the delete modal
+const setDeletionButtons = (item) => {
+  const modal = document.querySelector(".modal__delete");
+  const deleteButton = modal.querySelector(".delete__button");
+  const cancelButton = modal.querySelector(".cancel__button");
+
+  deleteButton.addEventListener("click", () => deleteItem(item));
+  //   cancelButton.addEventListener("click", cancelDeletion);
+};
+
+// Delete an item from the list
+const deleteItem = (item) => {
+  const modal = document.querySelector(".grocery__modal");
+  const list = document.querySelector(".list");
+
+  list.removeChild(item);
+  deleteLocalStorage(item.id);
+  displayModal(modal, "none");
+  displayAlert("item removed", "danger", ".alert");
 };
 
 // reusable functions
@@ -159,7 +214,7 @@ const displayAlert = (text, action, element) => {
   }, 1400);
 };
 
-const displayRemoveModal = (modal, prop) => {
+const displayModal = (modal, prop) => {
   modal.style.display = prop;
 
   if (prop == "none") {
