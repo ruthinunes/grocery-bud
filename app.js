@@ -238,6 +238,21 @@ const cancelDeletion = () => {
   displayModal(modal, "none");
 };
 
+// Set up event listener for the clear items button
+const setClearButton = () => {
+  const clearButton = document.querySelector(".list__button");
+
+  clearButton.addEventListener("click", () => removeItems());
+};
+
+// Clear all items from the list
+const removeItems = () => {
+  const list = document.querySelector(".list");
+
+  list.innerHTML = "";
+  localStorage.clear("list");
+};
+
 // reusable functions
 const displayAlert = (text, action, element) => {
   const alertElement = document.querySelector(element);
@@ -271,5 +286,5 @@ const setBackToDefault = () => {
 window.addEventListener("DOMContentLoaded", () => {
   loadItems();
   setSubmitButton();
-  //   setClearButton();
+  setClearButton();
 });
