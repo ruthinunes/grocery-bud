@@ -190,25 +190,25 @@ section:hover {
   color: var(--text-color);
 }
 
-.item {
+.item__title {
   letter-spacing: 1.8px;
   font-family: var(--font-primary);
 }
 
-.edit__button {
+.item__btn-edit {
   margin-right: var(--mb-12);
   color: var(--success-light-color);
 }
 
-.delete__button {
+.item__btn-delete {
   color: var(--danger-light-color);
 }
 
-.edit__button:hover {
+.item__btn-edit:hover {
   color: var(--success-dark-color);
 }
 
-.delete__button:hover {
+.item__btn-delete:hover {
   color: var(--danger-dark-color);
 }
 
