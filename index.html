@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grocery Bud</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="grocery">
+      <p class="grocery__alert alert"></p>
+      <h3 class="grocery__title">Grocery Bud</h3>
+      <!-- Form -->
+      <form class="grocery__form">
+        <div class="form__content">
+          <input
+            type="text"
+            id="grocery"
+            class="form__input"
+            placeholder="Type here.."
+          />
+          <button type="submit" class="form__button">Submit</button>
+        </div>
+      </form>
+      <!-- List -->
+      <div class="grocery__modal"></div>
+      <div class="grocery__list">
+        <ul class="list"></ul>
+        <!-- Button -->
+        <button type="button" class="list__button">Clear Items</button>
+      </div>
+    </section>
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+  </body>
+</html>
