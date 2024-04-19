@@ -186,7 +186,7 @@ const setDeletionButtons = (item) => {
   const cancelButton = modal.querySelector(".cancel__button");
 
   deleteButton.addEventListener("click", () => deleteItem(item));
-  //   cancelButton.addEventListener("click", cancelDeletion);
+  cancelButton.addEventListener("click", cancelDeletion);
 };
 
 // Delete an item from the list
@@ -198,6 +198,13 @@ const deleteItem = (item) => {
   deleteLocalStorage(item.id);
   displayModal(modal, "none");
   displayAlert("item removed", "danger", ".alert");
+};
+
+// Cancel the item deletion process
+const cancelDeletion = () => {
+  const modal = document.querySelector(".grocery__modal");
+
+  displayModal(modal, "none");
 };
 
 // reusable functions
