@@ -4,6 +4,13 @@ const getLocalStorage = () => JSON.parse(localStorage.getItem("list")) ?? [];
 const setLocalStorage = (value) =>
   localStorage.setItem("list", JSON.stringify(value));
 
+const addLocalStorage = (value) => {
+  const items = getLocalStorage();
+
+  items.push(value);
+  setLocalStorage(items);
+};
+
 const updateLocalStorage = (id, value) => {
   const items = getLocalStorage().reverse();
   items[id].value = value;
@@ -15,6 +22,30 @@ const deleteLocalStorage = (index) => {
   const items = getLocalStorage().reverse();
   items.splice(index, 1);
   setLocalStorage(items.reverse());
+};
+
+// Set up event listener for the submit button
+const setSubmitButton = () => {
+  const submitButton = document.querySelector(".form__button");
+
+  submitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    addNewItem();
+  });
+};
+
+// Add new item to the list
+const addNewItem = () => {
+  const input = document.querySelector(".form__input");
+
+  if (input.value === "") {
+    displayAlert("Please, insert a value!", "danger", ".alert");
+    return;
+  }
+  addLocalStorage({ value: input.value });
+  displayAlert("item added to the list", "success", ".alert");
+  setBackToDefault();
+  loadItems();
 };
 
 // Load items from local storage
@@ -239,6 +270,6 @@ const setBackToDefault = () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   loadItems();
-  //   setSubmitButton();
+  setSubmitButton();
   //   setClearButton();
 });
