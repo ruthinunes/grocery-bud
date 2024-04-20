@@ -55,6 +55,7 @@ const loadItems = () => {
   if (items.length > 0) {
     setList(items);
   }
+  document.getElementById("grocery").focus();
 };
 
 // Set up list
@@ -224,9 +225,11 @@ const setDeletionButtons = (item) => {
 const deleteItem = (item) => {
   const modal = document.querySelector(".grocery__modal");
   const list = document.querySelector(".list");
+  const index = Array.from(list.children).indexOf(item);
+ 
 
   list.removeChild(item);
-  deleteLocalStorage(item.id);
+  deleteLocalStorage(index);
   displayModal(modal, "none");
   displayAlert("item removed", "danger", ".alert");
 };
